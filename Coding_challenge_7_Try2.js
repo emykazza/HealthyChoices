@@ -51,20 +51,28 @@ Question.prototype.displayQuestion = function() {
     }
 }
 
+var totalScore = 0;
+
 Question.prototype.checkAnswer = function(ans) {
     if (ans === this.correct) {
         console.log("Good Job, you've selected the correct answer");
+        ++totalScore;
+        console.log("Your current score is " + totalScore);
     } else {
         console.log("Sorry, you've selected the wrong answer");
+        --totalScore;
+        console.log("Your current score is " + totalScore);
     }
+    
 }
-
+    
 function nextQuestion() {
 //random question selection
 var n = Math.floor(Math.random() * questionsArr.length);
 
 //call the display question
 questionsArr[n].displayQuestion();
+
     
 //prompt user for question and answer this will be the answer given
 var answer = prompt("Please select an answer");
