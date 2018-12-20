@@ -58,6 +58,45 @@ Question.prototype.checkAnswer = function(ans) {
         console.log("Good Job, you've selected the correct answer");
         ++totalScore;
         console.log("Your current score is " + totalScore);
+        
+        //Teacher'c code would call the keepScore() function here if the ans was correct Or true.  Callback is keepScore true
+        /*
+        var sc;
+        
+        function(ans, callback) {
+    if (ans === this.correct) {
+        console.log("Good Job, you've selected the correct answer");
+        sc = callback(true); //this is keepScore
+        
+    
+        
+        because we now when the answer we pass in is the correct answer it wil be "true". 
+        
+        Remember that the Score() variable accepts only a correct parameter.  And if it's not correct it going to only "return the score" and not make any updates.
+        
+        Always say we need to store it then write sc  in the variable
+        
+        } else {
+        console.log("Sorry, you've selected the wrong answer");
+        
+        sc = callback(false);
+        //parameter is false and therefore the score is not going to be updated.  All this does is to return the score that is because we only want to display the score if it is false or correct.  So we always need to retrieve the score or value from the function
+    }
+    
+    this.displayScore(sc);
+    this point to the prototype chain so displayscore has access to sc because its also in this.checkAnswer
+        */
+        
+    /*
+    //this is a method that will display the score in the console.
+    
+    Question.prototype.displayScore = function(score) {
+    console.log('Your current score is: ' + score);
+    console.log('---------------------------------');
+    }
+        
+        
+        
     } else {
         console.log("Sorry, you've selected the wrong answer");
         --totalScore;
@@ -65,8 +104,31 @@ Question.prototype.checkAnswer = function(ans) {
     }
     
 }
+
+//Teacher's code for keeping score of player
+function score() {
+    var sc = 0;
+    return function(correct) {
+        if (correct) {
+            sc++;
+        }
+        //It's here in this function that the closure returns
+        return sc;
+    }
+    
+}
+//Now all we need to do is to store it because it returns another function and so I want to keep that function in this variable and we will call it keepScore.
+
+var keepScore = score();
+
+//Remember what closure are.  We call the score function, it defines as a variable and then we return this function here "function(correct").  And this is going to be attached to this variable.  Now thanks for closures we always have access to the variables the other function defines.  THis means that the sc variables will always be accessible by this keep score function here.  We will then call this function if the score is correct.  Here we make use of passing function around because they're first class objects in javascript.  So first class functions.
+*/
+    
     
 function nextQuestion() {
+//All of the below is put as function so we can call it over and over again.
+//THe array of our questions will always be the same and we do not need to chance it so therefore it can be outside of this "nextQuestion" function.
+    
 //random question selection
 var n = Math.floor(Math.random() * questionsArr.length);
 
@@ -77,9 +139,11 @@ questionsArr[n].displayQuestion();
 //prompt user for question and answer this will be the answer given
 var answer = prompt("Please select an answer");
 
-//check answer and check for exit remark
+//check answer and check for exit remark.  If exit remark is different from exit then continue otherwise if we write exit the loop will stop.
 if(answer !== 'exit') {
     questionsArr[n].checkAnswer(parseInt(answer));
+    
+//Teacher's code pass in keepscore function  questionsArr[n].checkAnswer(parseInt(answer) keepScore());    
     
     nextQuestion();
 }
@@ -88,4 +152,6 @@ if(answer !== 'exit') {
 
 nextQuestion();
 
+//Now next question is used every time we want to continue the game.  If the user DOESN"T enter "exit" then the game continues.    
+    
 })();
